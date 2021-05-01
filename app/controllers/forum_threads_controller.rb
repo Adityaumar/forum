@@ -3,10 +3,11 @@ class ForumThreadsController < ApplicationController
 
     def index
         if params[:search]
-            @threads = ForumThread.where('title like?', "%#{params[:search]}%").paginate(per_page: 5, page: params[:page]) #jadi fungsi dari % itu adalah setiap % di dalam string maka dia itu ada manfaatnya yang di mana % pertama/didepan itu kalimat pertama kalo % yang di akhir itu kalimat yang terakhir
+            @threads = ForumThread.where('title ilike?', "%#{params[:search]}%") #jadi fungsi dari % itu adalah setiap % di dalam string maka dia itu ada manfaatnya yang di mana % pertama/didepan itu kalimat pertama kalo % yang di akhir itu kalimat yang terakhir
         else 
-            @threads = ForumThread.order(sticky_order: :asc).order(id: :desc).paginate(per_page: 5, page: params[:page])
+            @threads = ForumThread.order(sticky_order: :asc).order(id: :desc)
         end
+        @threads.paginate(per_page: 5, page: params[:page])
     end
     
     def show
